@@ -7,7 +7,7 @@ func TestDeleteEmployee(t *testing.T) {
 
 	empId := 3
 	addTr := NewAddCommissionedEmployeeTransaction(empId, "Lance", "Home", 2500.00, 3.2)
-	addTr.Execute(addTr)
+	addTr.Execute()
 
 	e := GpayrollDatabase.GetEmployee(empId)
 	if e == nil {

@@ -4,7 +4,7 @@ type AddEmployeeTransaction interface {
 	GetClassification() PaymentClassification
 	GetSchedule() PaymentSchedule
 	GetMethod() PaymentMethod
-	Execute(AddEmployeeTransaction)
+	Execute()
 }
 
 type BasicAddEmployeeTransaction struct {

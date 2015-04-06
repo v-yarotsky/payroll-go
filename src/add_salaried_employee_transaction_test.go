@@ -9,7 +9,7 @@ func TestAddSalariedEmployee(t *testing.T) {
 
 	empId := 1
 	tr := NewAddSalariedEmployeeTransaction(empId, "Bob", "Home", 1000.00)
-	tr.Execute(tr)
+	tr.Execute()
 
 	e := GpayrollDatabase.GetEmployee(empId)
 

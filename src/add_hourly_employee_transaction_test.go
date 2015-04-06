@@ -9,7 +9,7 @@ func TestAddHourlyEmployee(t *testing.T) {
 
 	empId := 1
 	tr := NewAddHourlyEmployeeTransaction(empId, "Alice", "Kentucky", 10.00)
-	tr.Execute(tr)
+	tr.Execute()
 
 	e := GpayrollDatabase.GetEmployee(empId)
 

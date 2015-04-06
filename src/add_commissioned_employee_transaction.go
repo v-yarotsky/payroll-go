@@ -23,3 +23,7 @@ func (t addCommissionedEmployeeTransaction) GetSchedule() PaymentSchedule {
 func (t addCommissionedEmployeeTransaction) GetMethod() PaymentMethod {
 	return HoldMethod{}
 }
+
+func (t addCommissionedEmployeeTransaction) Execute() {
+	t.BasicAddEmployeeTransaction.Execute(t)
+}

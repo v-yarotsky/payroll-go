@@ -6,7 +6,7 @@ func TestTimeCardTransaction(t *testing.T) {
 	empId := 2
 
 	addTr := NewAddHourlyEmployeeTransaction(empId, "Bill", "Home", 15.25)
-	addTr.Execute(addTr)
+	addTr.Execute()
 
 	tcTr := NewTimeCardTransaction(20011031, 8.0, empId)
 	_ = tcTr.Execute()

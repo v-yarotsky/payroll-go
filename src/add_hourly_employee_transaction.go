@@ -10,7 +10,7 @@ func NewAddHourlyEmployeeTransaction(empId int, name string, address string, hou
 }
 
 func (t addHourlyEmployeeTransaction) GetClassification() PaymentClassification {
-	return HourlyClassification{HourlyRate: t.HourlyRate}
+	return HourlyClassification{EmployeeID: t.EmployeeID, HourlyRate: t.HourlyRate}
 }
 
 func (t addHourlyEmployeeTransaction) GetSchedule() PaymentSchedule {
@@ -19,4 +19,8 @@ func (t addHourlyEmployeeTransaction) GetSchedule() PaymentSchedule {
 
 func (t addHourlyEmployeeTransaction) GetMethod() PaymentMethod {
 	return HoldMethod{}
+}
+
+func (t addHourlyEmployeeTransaction) Execute() {
+	t.BasicAddEmployeeTransaction.Execute(t)
 }
