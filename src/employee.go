@@ -7,4 +7,5 @@ type Employee struct {
 	PaymentSchedule       PaymentSchedule
 	PaymentClassification PaymentClassification
 	PaymentMethod         PaymentMethod
+	Affiliation           Affiliation
 }

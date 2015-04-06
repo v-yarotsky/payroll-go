@@ -17,7 +17,8 @@ func (t BasicAddEmployeeTransaction) Execute(tr AddEmployeeTransaction) {
 	pc := tr.GetClassification()
 	ps := tr.GetSchedule()
 	pm := tr.GetMethod()
-	e := &Employee{t.EmployeeID, t.EmployeeName, t.EmployeeAddress, ps, pc, pm}
+	aff := NoAffiliation{}
+	e := &Employee{t.EmployeeID, t.EmployeeName, t.EmployeeAddress, ps, pc, pm, aff}
 	GpayrollDatabase.AddEmployee(t.EmployeeID, e)
 }
 

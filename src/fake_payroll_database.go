@@ -10,18 +10,26 @@ type PayrollDatabase interface {
 	DeleteEmployee(int)
 	GetTimeCard(empId int, date int) error
 	AddTimeCard(empId int, tc *TimeCard) error
+	GetUnionMember(memberId int) (*Employee, error)
+	AddUnionMember(memberId int, employee *Employee) error
+	AddServiceCharge(memberId int, date int, sc *ServiceCharge) error
+	GetServiceCharge(memberId int, date int) (*ServiceCharge, error)
 	Clear()
 }
 
 type fakePayrollDatabase struct {
-	employees map[int]*Employee
-	timeCards map[int][]*TimeCard
+	employees      map[int]*Employee
+	timeCards      map[int][]*TimeCard
+	unionMembers   map[int]*Employee
+	serviceCharges map[int][]*ServiceCharge
 }
 
 func NewFakePayrollDatabase() *fakePayrollDatabase {
 	return &fakePayrollDatabase{
-		employees: make(map[int]*Employee),
-		timeCards: make(map[int][]*TimeCard),
+		employees:      make(map[int]*Employee),
+		timeCards:      make(map[int][]*TimeCard),
+		unionMembers:   make(map[int]*Employee),
+		serviceCharges: make(map[int][]*ServiceCharge),
 	}
 }
 
@@ -43,12 +51,39 @@ func (db *fakePayrollDatabase) GetTimeCard(empId int, date int) (*TimeCard, erro
 			return tc, nil
 		}
 	}
-	return nil, errors.New("not found")
+	return nil, errors.New("time card not found")
 }
 
 func (db *fakePayrollDatabase) AddTimeCard(empId int, tc *TimeCard) error {
 	db.timeCards[empId] = append(db.timeCards[empId], tc)
 	return nil
+}
+
+func (db *fakePayrollDatabase) GetUnionMember(memberId int) (*Employee, error) {
+	e, ok := db.unionMembers[memberId]
+	if !ok {
+		return nil, errors.New("union member not found")
+	}
+	return e, nil
+}
+
+func (db *fakePayrollDatabase) AddUnionMember(memberId int, e *Employee) error {
+	db.unionMembers[memberId] = e
+	return nil
+}
+
+func (db *fakePayrollDatabase) AddServiceCharge(memberId int, sc *ServiceCharge) error {
+	db.serviceCharges[memberId] = append(db.serviceCharges[memberId], sc)
+	return nil
+}
+
+func (db *fakePayrollDatabase) GetServiceCharge(memberId int, date int) (*ServiceCharge, error) {
+	for _, sc := range db.serviceCharges[memberId] {
+		if sc.Date == date {
+			return sc, nil
+		}
+	}
+	return nil, errors.New("service charge not found")
 }
 
 func (db *fakePayrollDatabase) Clear() {
