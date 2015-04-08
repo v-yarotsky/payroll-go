@@ -18,7 +18,7 @@ func (t *timeCardTransaction) Execute() error {
 		return errors.New("no such employee")
 	}
 
-	pc, ok := e.PaymentClassification.(HourlyClassification)
+	pc, ok := e.PaymentClassification.(*HourlyClassification)
 
 	if !ok {
 		return errors.New("tried to add time card to non-hourly employee")

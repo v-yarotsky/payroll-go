@@ -16,7 +16,7 @@ func TestSalesReceiptTransaction(t *testing.T) {
 	tr := NewSalesReceiptTransaction(empId, 20011101, 100.0)
 	_ = tr.Execute()
 
-	pc, ok := e.PaymentClassification.(CommissionedClassification)
+	pc, ok := e.PaymentClassification.(*CommissionedClassification)
 	if !ok {
 		t.Fatalf("expected commissioned payment classification")
 	}

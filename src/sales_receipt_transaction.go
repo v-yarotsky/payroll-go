@@ -18,7 +18,7 @@ func (t salesReceiptTransaction) Execute() error {
 		return errors.New("no such employee")
 	}
 
-	pc, ok := e.PaymentClassification.(CommissionedClassification)
+	pc, ok := e.PaymentClassification.(*CommissionedClassification)
 
 	if !ok {
 		return errors.New("tried to add sales receipt to non-commissioned employee")

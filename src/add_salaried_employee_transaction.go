@@ -10,7 +10,7 @@ func NewAddSalariedEmployeeTransaction(empId int, name string, address string, s
 }
 
 func (t addSalariedEmployeeTransaction) GetClassification() PaymentClassification {
-	return SalariedClassification{Salary: t.Salary}
+	return NewSalariedClassification(t.Salary)
 }
 
 func (t addSalariedEmployeeTransaction) GetSchedule() PaymentSchedule {

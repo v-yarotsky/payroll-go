@@ -13,7 +13,7 @@ func NewAddCommissionedEmployeeTransaction(empId int, name string, address strin
 }
 
 func (t addCommissionedEmployeeTransaction) GetClassification() PaymentClassification {
-	return CommissionedClassification{EmployeeID: t.EmployeeID, Salary: t.Salary, CommissionRate: t.CommissionRate}
+	return NewCommissionedClassification(t.Salary, t.CommissionRate)
 }
 
 func (t addCommissionedEmployeeTransaction) GetSchedule() PaymentSchedule {

@@ -16,7 +16,7 @@ func TestTimeCardTransaction(t *testing.T) {
 		t.Fatalf("employee must have been in database")
 	}
 
-	pc, ok := e.PaymentClassification.(HourlyClassification)
+	pc, ok := e.PaymentClassification.(*HourlyClassification)
 
 	if !ok {
 		t.Fatalf("expected hourly payment classification")

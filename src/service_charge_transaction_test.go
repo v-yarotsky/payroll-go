@@ -14,7 +14,7 @@ func TestServiceChargeTransaction(t *testing.T) {
 	}
 
 	memberId := 86
-	af := UnionAffiliation{memberId, 12.5}
+	af := NewUnionAffiliation(memberId, 12.5)
 	e.Affiliation = af
 
 	GpayrollDatabase.AddUnionMember(memberId, e)

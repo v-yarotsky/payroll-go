@@ -17,9 +17,10 @@ func (t serviceChargeTransaction) Execute() error {
 	if err != nil {
 		return err
 	}
-	af, ok := e.Affiliation.(UnionAffiliation)
+	af, ok := e.Affiliation.(*UnionAffiliation)
 	if !ok {
 		return errors.New("tried to add service charge to a non-union member")
 	}
-	return af.AddServiceCharge(t.Date, t.Charge)
+	charge := &ServiceCharge{t.Date, t.Charge}
+	return af.AddServiceCharge(charge)
 }

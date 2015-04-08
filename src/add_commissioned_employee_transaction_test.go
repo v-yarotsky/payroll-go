@@ -17,7 +17,7 @@ func TestAddCommissionedEmployee(t *testing.T) {
 		t.Fatalf("expected employee name to be %v, got %v", "Eric", e.Name)
 	}
 
-	pc, ok := e.PaymentClassification.(CommissionedClassification)
+	pc, ok := e.PaymentClassification.(*CommissionedClassification)
 	if !ok {
 		t.Fatalf("expected employee to have commissioned classification, got %x", e.PaymentClassification)
 	}

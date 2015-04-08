@@ -17,7 +17,7 @@ func TestAddSalariedEmployee(t *testing.T) {
 		t.Fatalf("expected employee name to be %v, got %v", "Bob", e.Name)
 	}
 
-	pc, ok := e.PaymentClassification.(SalariedClassification)
+	pc, ok := e.PaymentClassification.(*SalariedClassification)
 	if !ok {
 		t.Fatalf("expected employee to have salaried classification, got %v", e.PaymentClassification)
 	}

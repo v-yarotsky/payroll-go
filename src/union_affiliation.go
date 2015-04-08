@@ -1,20 +1,30 @@
 package payroll
 
-type ServiceCharge struct {
-	Date   int
-	Amount float64
-}
+import "errors"
 
 type UnionAffiliation struct {
 	MemberID      int
 	MonthlyCharge float64
+	charges       map[int]*ServiceCharge
 }
 
-func (a UnionAffiliation) AddServiceCharge(date int, charge float64) error {
-	sc := &ServiceCharge{date, charge}
-	return GpayrollDatabase.AddServiceCharge(a.MemberID, sc)
+func NewUnionAffiliation(memberId int, monthlyCharge float64) *UnionAffiliation {
+	return &UnionAffiliation{
+		MemberID:      memberId,
+		MonthlyCharge: monthlyCharge,
+		charges:       make(map[int]*ServiceCharge),
+	}
 }
 
-func (a UnionAffiliation) GetServiceCharge(date int) (*ServiceCharge, error) {
-	return GpayrollDatabase.GetServiceCharge(a.MemberID, date)
+func (a *UnionAffiliation) GetServiceCharge(date int) (*ServiceCharge, error) {
+	sc, ok := a.charges[date]
+	if !ok {
+		return nil, errors.New("service charge not found")
+	}
+	return sc, nil
+}
+
+func (a *UnionAffiliation) AddServiceCharge(charge *ServiceCharge) error {
+	a.charges[charge.Date] = charge
+	return nil
 }
