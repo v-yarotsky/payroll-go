@@ -9,6 +9,6 @@ func (c *HourlyClassification) GetTimeCard(date int) (*TimeCard, error) {
 	return GpayrollDatabase.GetTimeCard(c.EmployeeID, date)
 }
 
-func (c *HourlyClassification) AddTimeCard(tc *TimeCard) {
-	GpayrollDatabase.AddTimeCard(c.EmployeeID, tc)
+func (c *HourlyClassification) AddTimeCard(tc *TimeCard) error {
+	return GpayrollDatabase.AddTimeCard(c.EmployeeID, tc)
 }

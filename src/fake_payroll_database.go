@@ -14,6 +14,8 @@ type PayrollDatabase interface {
 	AddUnionMember(memberId int, employee *Employee) error
 	AddServiceCharge(memberId int, date int, sc *ServiceCharge) error
 	GetServiceCharge(memberId int, date int) (*ServiceCharge, error)
+	GetSalesReceipt(empId int, date int) (*SalesReceipt, error)
+	AddSalesReceipt(empId int, sr *SalesReceipt) error
 	Clear()
 }
 
@@ -22,6 +24,7 @@ type fakePayrollDatabase struct {
 	timeCards      map[int][]*TimeCard
 	unionMembers   map[int]*Employee
 	serviceCharges map[int][]*ServiceCharge
+	salesReceipts  map[int][]*SalesReceipt
 }
 
 func NewFakePayrollDatabase() *fakePayrollDatabase {
@@ -30,6 +33,7 @@ func NewFakePayrollDatabase() *fakePayrollDatabase {
 		timeCards:      make(map[int][]*TimeCard),
 		unionMembers:   make(map[int]*Employee),
 		serviceCharges: make(map[int][]*ServiceCharge),
+		salesReceipts:  make(map[int][]*SalesReceipt),
 	}
 }
 
@@ -84,6 +88,20 @@ func (db *fakePayrollDatabase) GetServiceCharge(memberId int, date int) (*Servic
 		}
 	}
 	return nil, errors.New("service charge not found")
+}
+
+func (db *fakePayrollDatabase) GetSalesReceipt(empId int, date int) (*SalesReceipt, error) {
+	for _, sr := range db.salesReceipts[empId] {
+		if sr.Date == date {
+			return sr, nil
+		}
+	}
+	return nil, errors.New("sales receipt not found")
+}
+
+func (db *fakePayrollDatabase) AddSalesReceipt(empId int, sr *SalesReceipt) error {
+	db.salesReceipts[empId] = append(db.salesReceipts[empId], sr)
+	return nil
 }
 
 func (db *fakePayrollDatabase) Clear() {

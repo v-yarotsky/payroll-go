@@ -18,7 +18,7 @@ run: build
 	./bin/app
 
 test:
-	go test ./src/...
+	go test -v ./src/...
 
 vendor.clean:
 	rm -dRf ./_vendor/src
