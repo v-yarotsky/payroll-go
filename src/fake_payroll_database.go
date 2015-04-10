@@ -10,6 +10,7 @@ type PayrollDatabase interface {
 	DeleteEmployee(int)
 	GetUnionMember(memberId int) (*Employee, error)
 	AddUnionMember(memberId int, employee *Employee) error
+	RemoveUnionMember(memberId int) error
 	Clear()
 }
 
@@ -47,6 +48,11 @@ func (db *fakePayrollDatabase) GetUnionMember(memberId int) (*Employee, error) {
 
 func (db *fakePayrollDatabase) AddUnionMember(memberId int, e *Employee) error {
 	db.unionMembers[memberId] = e
+	return nil
+}
+
+func (db *fakePayrollDatabase) RemoveUnionMember(memberId int) error {
+	db.unionMembers[memberId] = nil
 	return nil
 }
 
