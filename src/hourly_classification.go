@@ -1,20 +1,21 @@
 package payroll
 
 import "errors"
+import "time"
 
 type HourlyClassification struct {
 	HourlyRate float64
-	timeCards  map[int]*TimeCard
+	timeCards  map[time.Time]*TimeCard
 }
 
 func NewHourlyClassification(hourlyRate float64) *HourlyClassification {
 	return &HourlyClassification{
 		HourlyRate: hourlyRate,
-		timeCards:  make(map[int]*TimeCard),
+		timeCards:  make(map[time.Time]*TimeCard),
 	}
 }
 
-func (c *HourlyClassification) GetTimeCard(date int) (*TimeCard, error) {
+func (c *HourlyClassification) GetTimeCard(date time.Time) (*TimeCard, error) {
 	tc, ok := c.timeCards[date]
 	if !ok {
 		return nil, errors.New("time card not found")

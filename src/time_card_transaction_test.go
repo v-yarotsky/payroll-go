@@ -8,7 +8,7 @@ func TestTimeCardTransaction(t *testing.T) {
 	addTr := NewAddHourlyEmployeeTransaction(empId, "Bill", "Home", 15.25)
 	addTr.Execute()
 
-	tcTr := NewTimeCardTransaction(20011031, 8.0, empId)
+	tcTr := NewTimeCardTransaction(parseDate("2001-Oct-31"), 8.0, empId)
 	_ = tcTr.Execute()
 
 	e := GpayrollDatabase.GetEmployee(empId)
@@ -22,7 +22,7 @@ func TestTimeCardTransaction(t *testing.T) {
 		t.Fatalf("expected hourly payment classification")
 	}
 
-	tc, err := pc.GetTimeCard(20011031)
+	tc, err := pc.GetTimeCard(parseDate("2001-Oct-31"))
 
 	if err != nil {
 		t.Fatalf("expected to find a time card, got error %v", err)

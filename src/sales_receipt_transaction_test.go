@@ -13,7 +13,7 @@ func TestSalesReceiptTransaction(t *testing.T) {
 		t.Fatalf("employee must have been in database")
 	}
 
-	tr := NewSalesReceiptTransaction(empId, 20011101, 100.0)
+	tr := NewSalesReceiptTransaction(empId, parseDate("2001-Nov-01"), 100.0)
 	_ = tr.Execute()
 
 	pc, ok := e.PaymentClassification.(*CommissionedClassification)
@@ -21,7 +21,7 @@ func TestSalesReceiptTransaction(t *testing.T) {
 		t.Fatalf("expected commissioned payment classification")
 	}
 
-	sr, err := pc.GetSalesReceipt(20011101)
+	sr, err := pc.GetSalesReceipt(parseDate("2001-Nov-01"))
 	if err != nil {
 		t.Fatalf("Expected sales receipt to be there, got err %v", err)
 	}

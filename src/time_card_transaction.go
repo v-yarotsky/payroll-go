@@ -1,14 +1,20 @@
 package payroll
 
 import "errors"
+import "time"
+
+type TimeCard struct {
+	Date  time.Time
+	Hours float64
+}
 
 type timeCardTransaction struct {
-	Date       int
+	Date       time.Time
 	Hours      float64
 	EmployeeID int
 }
 
-func NewTimeCardTransaction(date int, hours float64, empId int) timeCardTransaction {
+func NewTimeCardTransaction(date time.Time, hours float64, empId int) timeCardTransaction {
 	return timeCardTransaction{date, hours, empId}
 }
 

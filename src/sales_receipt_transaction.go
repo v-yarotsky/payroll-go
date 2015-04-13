@@ -1,14 +1,20 @@
 package payroll
 
 import "errors"
+import "time"
+
+type SalesReceipt struct {
+	Date   time.Time
+	Amount float64
+}
 
 type salesReceiptTransaction struct {
 	EmployeeID int
-	Date       int
+	Date       time.Time
 	Amount     float64
 }
 
-func NewSalesReceiptTransaction(empId int, date int, amount float64) salesReceiptTransaction {
+func NewSalesReceiptTransaction(empId int, date time.Time, amount float64) salesReceiptTransaction {
 	return salesReceiptTransaction{empId, date, amount}
 }
 
