@@ -1,14 +1,20 @@
 package payroll
 
 import "errors"
+import "time"
+
+type ServiceCharge struct {
+	Date   time.Time
+	Amount float64
+}
 
 type serviceChargeTransaction struct {
 	MemberID int
-	Date     int
+	Date     time.Time
 	Charge   float64
 }
 
-func NewServiceChargeTransaction(memberId int, date int, charge float64) serviceChargeTransaction {
+func NewServiceChargeTransaction(memberId int, date time.Time, charge float64) serviceChargeTransaction {
 	return serviceChargeTransaction{memberId, date, charge}
 }
 

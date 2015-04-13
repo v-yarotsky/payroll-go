@@ -19,10 +19,10 @@ func TestServiceChargeTransaction(t *testing.T) {
 
 	GpayrollDatabase.AddUnionMember(memberId, e)
 
-	tr := NewServiceChargeTransaction(memberId, 20011101, 12.95)
+	tr := NewServiceChargeTransaction(memberId, parseDate("2001-Nov-01"), 12.95)
 	_ = tr.Execute()
 
-	sc, err := af.GetServiceCharge(20011101)
+	sc, err := af.GetServiceCharge(parseDate("2001-Nov-01"))
 	if err != nil {
 		t.Fatalf("Expected service charge to be there, got err %v", err)
 	}

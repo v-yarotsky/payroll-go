@@ -248,6 +248,67 @@ func TestSalariedEmployeeUnionMemberDues(t *testing.T) {
 	validatePaycheck(pc, payDate, 1000.0, 5*9.42, 1000.0-5*9.42, "Hold", t)
 }
 
+func TestHourlyUnionMemberServiceCharge(t *testing.T) {
+	empId := 2
+	addTr := NewAddHourlyEmployeeTransaction(empId, "Bill", "Home", 15.25)
+	addTr.Execute()
+
+	memberId := 82
+	unionTr := NewChangeMemberTransaction(empId, memberId, 9.42)
+	unionTr.Execute()
+
+	serviceTr := NewServiceChargeTransaction(memberId, parseDate("2001-Nov-07"), 10.0)
+	serviceTr.Execute()
+
+	timeCardTr := NewTimeCardTransaction(parseDate("2001-Nov-08"), 8.0, empId)
+	timeCardTr.Execute()
+
+	payDate := parseDate("2001-Nov-09")
+	tr := NewPaydayTransaction(payDate)
+	tr.Execute()
+
+	pc, err := tr.GetPaycheck(empId)
+	if err != nil {
+		t.Fatalf("hourly employee should have had a paycheck on Friday!")
+	}
+
+	validatePaycheck(pc, payDate, 8*15.25, 19.42, 8*15.25-19.42, "Hold", t)
+}
+
+func TestHourlyUnionMemberServiceChargeSpanningMultiplePeriods(t *testing.T) {
+	empId := 2
+	addTr := NewAddHourlyEmployeeTransaction(empId, "Bill", "Home", 15.25)
+	addTr.Execute()
+
+	memberId := 82
+	unionTr := NewChangeMemberTransaction(empId, memberId, 9.42)
+	unionTr.Execute()
+
+	// previous pay period
+	serviceTr1 := NewServiceChargeTransaction(memberId, parseDate("2001-Oct-07"), 100.0)
+	serviceTr1.Execute()
+
+	serviceTr2 := NewServiceChargeTransaction(memberId, parseDate("2001-Nov-07"), 10.0)
+	serviceTr2.Execute()
+
+	// next pay period
+	serviceTr3 := NewServiceChargeTransaction(memberId, parseDate("2001-Dec-07"), 200.0)
+	serviceTr3.Execute()
+
+	timeCardTr := NewTimeCardTransaction(parseDate("2001-Nov-08"), 8.0, empId)
+	timeCardTr.Execute()
+
+	payDate := parseDate("2001-Nov-09")
+	tr := NewPaydayTransaction(payDate)
+	tr.Execute()
+
+	pc, err := tr.GetPaycheck(empId)
+	if err != nil {
+		t.Fatalf("hourly employee should have had a paycheck on Friday!")
+	}
+
+	validatePaycheck(pc, payDate, 8*15.25, 19.42, 8*15.25-19.42, "Hold", t)
+}
 func validatePaycheck(pc *Paycheck, payDate time.Time, grossPay, deductions, netPay float64, disposition string, t *testing.T) {
 	if pc.PayPeriodEndDate != payDate {
 		t.Fatalf("expected paycheck to be dated %v, was dated %v", payDate, pc.PayPeriodEndDate)
