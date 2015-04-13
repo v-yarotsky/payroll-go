@@ -16,6 +16,10 @@ func NewUnionAffiliation(memberId int, monthlyCharge float64) *UnionAffiliation 
 	}
 }
 
+func (a *UnionAffiliation) CalculateDeductions(pc *Paycheck) float64 {
+	return 1.0
+}
+
 func (a *UnionAffiliation) GetServiceCharge(date int) (*ServiceCharge, error) {
 	sc, ok := a.charges[date]
 	if !ok {

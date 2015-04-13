@@ -5,6 +5,7 @@ import "errors"
 var GpayrollDatabase = NewFakePayrollDatabase()
 
 type PayrollDatabase interface {
+	GetAllEmployees() []*Employee
 	GetEmployee(int) *Employee
 	AddEmployee(int, *Employee)
 	DeleteEmployee(int)
@@ -24,6 +25,14 @@ func NewFakePayrollDatabase() *fakePayrollDatabase {
 		employees:    make(map[int]*Employee),
 		unionMembers: make(map[int]*Employee),
 	}
+}
+
+func (db *fakePayrollDatabase) GetAllEmployees() []*Employee {
+	employees := make([]*Employee, 0, len(db.employees))
+	for _, employee := range db.employees {
+		employees = append(employees, employee)
+	}
+	return employees
 }
 
 func (db *fakePayrollDatabase) GetEmployee(empId int) *Employee {
