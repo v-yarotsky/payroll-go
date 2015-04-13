@@ -12,3 +12,7 @@ func (s *BiweeklySchedule) IsPayDate(date time.Time) bool {
 	isLastDayOfMonth := m1 != m2
 	return isMidMonth || isLastDayOfMonth
 }
+
+func (s *BiweeklySchedule) GetPayPeriodStartDate(payPeriodEndDate time.Time) time.Time {
+	return payPeriodEndDate.Add(-13 * 24 * time.Hour)
+}

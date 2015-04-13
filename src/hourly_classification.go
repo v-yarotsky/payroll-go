@@ -20,19 +20,11 @@ func NewHourlyClassification(hourlyRate float64) *HourlyClassification {
 func (c *HourlyClassification) CalculatePay(pc *Paycheck) float64 {
 	pay := 0.0
 	for _, tc := range c.timeCards {
-		if c.isInPayPeriod(tc, pc.PayDate) {
+		if pc.IsInPayPeriod(tc.Date) {
 			pay = pay + c.calculatePayForTimeCard(tc)
 		}
 	}
 	return pay
-}
-
-func (c *HourlyClassification) isInPayPeriod(tc *TimeCard, payPeriod time.Time) bool {
-	payPeriodEndDate := payPeriod
-	payPeriodStartDate := payPeriod.Add(-5 * 24 * time.Hour)
-	timeCardDate := tc.Date
-	return (timeCardDate.Equal(payPeriodStartDate) || timeCardDate.After(payPeriodStartDate)) &&
-		(timeCardDate.Equal(payPeriodEndDate) || timeCardDate.Before(payPeriodEndDate))
 }
 
 func (c *HourlyClassification) calculatePayForTimeCard(tc *TimeCard) float64 {

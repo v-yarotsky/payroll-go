@@ -4,15 +4,20 @@ import "time"
 import "errors"
 
 type Paycheck struct {
-	PayDate    time.Time
-	GrossPay   float64
-	Deductions float64
-	NetPay     float64
-	fields     map[string]string
+	PayPeriodStartDate time.Time
+	PayDate            time.Time
+	GrossPay           float64
+	Deductions         float64
+	NetPay             float64
+	fields             map[string]string
 }
 
-func NewPaycheck(payDate time.Time) *Paycheck {
-	return &Paycheck{PayDate: payDate, fields: make(map[string]string)}
+func NewPaycheck(payPeriodStartDate, payDate time.Time) *Paycheck {
+	return &Paycheck{
+		PayPeriodStartDate: payPeriodStartDate,
+		PayDate:            payDate,
+		fields:             make(map[string]string),
+	}
 }
 
 func (p *Paycheck) GetField(field string) (string, error) {
@@ -24,6 +29,10 @@ func (p *Paycheck) GetField(field string) (string, error) {
 
 func (p *Paycheck) SetField(fieldName, fieldValue string) {
 	p.fields[fieldName] = fieldValue
+}
+
+func (p *Paycheck) IsInPayPeriod(date time.Time) bool {
+	return DateIsBetween(date, p.PayPeriodStartDate, p.PayDate)
 }
 
 type paydayTransaction struct {
@@ -39,7 +48,7 @@ func (t *paydayTransaction) Execute() error {
 	employees := GpayrollDatabase.GetAllEmployees()
 	for _, employee := range employees {
 		if employee.IsPayDate(t.Date) {
-			pc := NewPaycheck(t.Date)
+			pc := NewPaycheck(employee.GetPayPeriodStartDate(t.Date), t.Date)
 			t.paychecks[employee.ID] = pc
 			employee.Payday(pc)
 		}

@@ -20,19 +20,11 @@ func NewCommissionedClassification(salary float64, commissionRate float64) *Comm
 func (c *CommissionedClassification) CalculatePay(pc *Paycheck) float64 {
 	totalSales := 0.0
 	for _, receipt := range c.salesReceipts {
-		if c.isInPayPeriod(receipt, pc.PayDate) {
+		if pc.IsInPayPeriod(receipt.Date) {
 			totalSales = totalSales + receipt.Amount
 		}
 	}
 	return c.Salary + c.CommissionRate*totalSales
-}
-
-func (c *CommissionedClassification) isInPayPeriod(r *SalesReceipt, payPeriod time.Time) bool {
-	payPeriodEndDate := payPeriod
-	payPeriodStartDate := payPeriod.Add(-13 * 24 * time.Hour)
-	receiptDate := r.Date
-	return (receiptDate.Equal(payPeriodStartDate) || receiptDate.After(payPeriodStartDate)) &&
-		(receiptDate.Equal(payPeriodEndDate) || receiptDate.Before(payPeriodEndDate))
 }
 
 func (c *CommissionedClassification) GetSalesReceipt(date time.Time) (*SalesReceipt, error) {
