@@ -18,7 +18,7 @@ func NewUnionAffiliation(memberId int, dues float64) *UnionAffiliation {
 }
 
 func (a *UnionAffiliation) CalculateDeductions(pc *Paycheck) float64 {
-	fridays := a.numberOfFridaysInPayPeriod(pc.PayPeriodStartDate, pc.PayDate)
+	fridays := a.numberOfFridaysInPayPeriod(pc.PayPeriodStartDate, pc.PayPeriodEndDate)
 	return float64(fridays) * a.Dues
 }
 

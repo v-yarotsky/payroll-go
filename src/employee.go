@@ -16,8 +16,8 @@ func (e *Employee) IsPayDate(date time.Time) bool {
 	return e.PaymentSchedule.IsPayDate(date)
 }
 
-func (e *Employee) GetPayPeriodStartDate(payDate time.Time) time.Time {
-	return e.PaymentSchedule.GetPayPeriodStartDate(payDate)
+func (e *Employee) GetPayPeriodStartDate(payPeriodEndDate time.Time) time.Time {
+	return e.PaymentSchedule.GetPayPeriodStartDate(payPeriodEndDate)
 }
 
 func (e *Employee) Payday(pc *Paycheck) {

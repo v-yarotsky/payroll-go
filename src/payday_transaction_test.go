@@ -249,8 +249,8 @@ func TestSalariedEmployeeUnionMemberDues(t *testing.T) {
 }
 
 func validatePaycheck(pc *Paycheck, payDate time.Time, grossPay, deductions, netPay float64, disposition string, t *testing.T) {
-	if pc.PayDate != payDate {
-		t.Fatalf("expected paycheck to be dated %v, was dated %v", payDate, pc.PayDate)
+	if pc.PayPeriodEndDate != payDate {
+		t.Fatalf("expected paycheck to be dated %v, was dated %v", payDate, pc.PayPeriodEndDate)
 	}
 
 	if !floatEquals(pc.GrossPay, grossPay) {

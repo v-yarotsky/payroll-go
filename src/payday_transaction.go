@@ -5,17 +5,17 @@ import "errors"
 
 type Paycheck struct {
 	PayPeriodStartDate time.Time
-	PayDate            time.Time
+	PayPeriodEndDate   time.Time
 	GrossPay           float64
 	Deductions         float64
 	NetPay             float64
 	fields             map[string]string
 }
 
-func NewPaycheck(payPeriodStartDate, payDate time.Time) *Paycheck {
+func NewPaycheck(payPeriodStartDate, payPeriodEndDate time.Time) *Paycheck {
 	return &Paycheck{
 		PayPeriodStartDate: payPeriodStartDate,
-		PayDate:            payDate,
+		PayPeriodEndDate:   payPeriodEndDate,
 		fields:             make(map[string]string),
 	}
 }
@@ -32,7 +32,7 @@ func (p *Paycheck) SetField(fieldName, fieldValue string) {
 }
 
 func (p *Paycheck) IsInPayPeriod(date time.Time) bool {
-	return DateIsBetween(date, p.PayPeriodStartDate, p.PayDate)
+	return DateIsBetween(date, p.PayPeriodStartDate, p.PayPeriodEndDate)
 }
 
 type paydayTransaction struct {
