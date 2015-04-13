@@ -3,16 +3,16 @@ package payroll
 import "errors"
 
 type UnionAffiliation struct {
-	MemberID      int
-	MonthlyCharge float64
-	charges       map[int]*ServiceCharge
+	MemberID int
+	Dues     float64
+	charges  map[int]*ServiceCharge
 }
 
-func NewUnionAffiliation(memberId int, monthlyCharge float64) *UnionAffiliation {
+func NewUnionAffiliation(memberId int, dues float64) *UnionAffiliation {
 	return &UnionAffiliation{
-		MemberID:      memberId,
-		MonthlyCharge: monthlyCharge,
-		charges:       make(map[int]*ServiceCharge),
+		MemberID: memberId,
+		Dues:     dues,
+		charges:  make(map[int]*ServiceCharge),
 	}
 }
 

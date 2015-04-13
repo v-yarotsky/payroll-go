@@ -21,8 +21,8 @@ func TestChangeMemberTransaction(t *testing.T) {
 		t.Fatalf("expected employee to be a union member, got %v", e.Affiliation)
 	}
 
-	if !floatEquals(a.MonthlyCharge, 99.42) {
-		t.Fatalf("expected union monthly charge to be 99.42, got %v", a.MonthlyCharge)
+	if !floatEquals(a.Dues, 99.42) {
+		t.Fatalf("expected union dues to be 99.42, got %v", a.Dues)
 	}
 
 	if m, _ := GpayrollDatabase.GetUnionMember(memberId); m != e {
