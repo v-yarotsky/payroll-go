@@ -1,6 +1,7 @@
 package payroll
 
 import "errors"
+import "time"
 
 type UnionAffiliation struct {
 	MemberID int
@@ -17,7 +18,19 @@ func NewUnionAffiliation(memberId int, dues float64) *UnionAffiliation {
 }
 
 func (a *UnionAffiliation) CalculateDeductions(pc *Paycheck) float64 {
-	return 1.0
+	fridays := a.numberOfFridaysInPayPeriod(pc.PayPeriodStartDate, pc.PayDate)
+	return float64(fridays) * a.Dues
+}
+
+func (a *UnionAffiliation) numberOfFridaysInPayPeriod(start, end time.Time) int {
+	fridays := 0
+	for start.Before(end) || start.Equal(end) {
+		if start.Weekday() == time.Friday {
+			fridays = fridays + 1
+		}
+		start = start.Add(24 * time.Hour)
+	}
+	return fridays
 }
 
 func (a *UnionAffiliation) GetServiceCharge(date int) (*ServiceCharge, error) {

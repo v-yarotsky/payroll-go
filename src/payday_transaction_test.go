@@ -227,6 +227,27 @@ func TestPaySingleCommissionedEmployeeWithSalesReceiptsSpanningTwoPeriods(t *tes
 	validatePaycheck(pc, payDate, pay, 0.0, pay, "Hold", t)
 }
 
+func TestSalariedEmployeeUnionMemberDues(t *testing.T) {
+	empId := 1
+	addTr := NewAddSalariedEmployeeTransaction(empId, "Bill", "Home", 1000.0)
+	addTr.Execute()
+
+	memberId := 82
+	unionTr := NewChangeMemberTransaction(empId, memberId, 9.42)
+	unionTr.Execute()
+
+	payDate := parseDate("2001-Nov-30")
+	tr := NewPaydayTransaction(payDate)
+	tr.Execute()
+
+	pc, err := tr.GetPaycheck(empId)
+	if err != nil {
+		t.Fatalf("salaried employee should have had a paycheck at the end of the month!")
+	}
+
+	validatePaycheck(pc, payDate, 1000.0, 5*9.42, 1000.0-5*9.42, "Hold", t)
+}
+
 func validatePaycheck(pc *Paycheck, payDate time.Time, grossPay, deductions, netPay float64, disposition string, t *testing.T) {
 	if pc.PayDate != payDate {
 		t.Fatalf("expected paycheck to be dated %v, was dated %v", payDate, pc.PayDate)
