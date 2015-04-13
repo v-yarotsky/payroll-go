@@ -14,11 +14,11 @@ func (t addHourlyEmployeeTransaction) GetClassification() PaymentClassification 
 }
 
 func (t addHourlyEmployeeTransaction) GetSchedule() PaymentSchedule {
-	return WeeklySchedule{}
+	return &WeeklySchedule{}
 }
 
 func (t addHourlyEmployeeTransaction) GetMethod() PaymentMethod {
-	return HoldMethod{}
+	return &HoldMethod{}
 }
 
 func (t addHourlyEmployeeTransaction) Execute() {

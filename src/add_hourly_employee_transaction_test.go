@@ -26,11 +26,11 @@ func TestAddHourlyEmployee(t *testing.T) {
 		t.Fatalf("expected hourly rate to be %v, got %v", 10.00, pc.HourlyRate)
 	}
 
-	if _, ok := e.PaymentSchedule.(WeeklySchedule); !ok {
+	if _, ok := e.PaymentSchedule.(*WeeklySchedule); !ok {
 		t.Fatalf("expected employee to have weekly payments schedule, got %v", e.PaymentSchedule)
 	}
 
-	if _, ok := e.PaymentMethod.(HoldMethod); !ok {
+	if _, ok := e.PaymentMethod.(*HoldMethod); !ok {
 		t.Fatalf("expected employee to have 'hold' payments method, got %v", e.PaymentMethod)
 	}
 

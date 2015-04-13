@@ -30,11 +30,11 @@ func TestAddCommissionedEmployee(t *testing.T) {
 		t.Fatalf("expected commission rate to be %v, got %v", 1.00, pc.CommissionRate)
 	}
 
-	if _, ok := e.PaymentSchedule.(BiweeklySchedule); !ok {
+	if _, ok := e.PaymentSchedule.(*BiweeklySchedule); !ok {
 		t.Fatalf("expected employee to have bi-weekly payments schedule, got %x", e.PaymentSchedule)
 	}
 
-	if _, ok := e.PaymentMethod.(HoldMethod); !ok {
+	if _, ok := e.PaymentMethod.(*HoldMethod); !ok {
 		t.Fatalf("expected employee to have 'hold' payments method, got %v", e.PaymentMethod)
 	}
 

@@ -17,11 +17,11 @@ func (t addCommissionedEmployeeTransaction) GetClassification() PaymentClassific
 }
 
 func (t addCommissionedEmployeeTransaction) GetSchedule() PaymentSchedule {
-	return BiweeklySchedule{}
+	return &BiweeklySchedule{}
 }
 
 func (t addCommissionedEmployeeTransaction) GetMethod() PaymentMethod {
-	return HoldMethod{}
+	return &HoldMethod{}
 }
 
 func (t addCommissionedEmployeeTransaction) Execute() {
