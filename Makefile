@@ -1,12 +1,12 @@
 .PHONY: build fmt lint run test vendor.clean vendor.get vet
 
-GOPATH := ${PWD}/_vendor:${GOPATH}
+GOPATH := ${PWD}:${PWD}/_vendor:${GOPATH}
 export GOPATH
 
 default: build
 
 build: vet
-	go build -v -o ./bin/app ./src/main
+	go build -v -o ./bin/app ./src/main.go
 
 fmt:
 	go fmt ./src/...
@@ -28,6 +28,6 @@ vendor.get: vendor.clean
 	if [ -d ./_vendor/src ]; then find ./_vendor/src -type d -name .git -exec echo rm -rf {} \; ; fi
 
 vet:
-	go vet ./src/...
+	go vet ./src/payroll...
 
 
